@@ -1,0 +1,34 @@
+###MENU
+POST http://localhost:3000/menu/create
+
+Content-Type: application/json
+{
+  "id": "653d82fb479ed962f83e9e53",
+  "name": "Cardapio diurnal"
+}
+
+GET http://localhost:3000/menu/list
+
+
+###PRODUCTS
+
+GET http://localhost:3000/products/list
+
+POST http://localhost:3000/products/create
+
+Content-Type: application/json
+{
+  "name": "coxinha",
+  "image": "url",
+  "price": 45,
+  "description": "string",
+  "shift": "diunal",
+  "categoriesId":["1"],
+  "menusId":["1"]
+}
+
+DELETE http://localhost:3000/products/:id
+
+###CATEGORIES
+GET http://localhost:3000/categories/list
+
