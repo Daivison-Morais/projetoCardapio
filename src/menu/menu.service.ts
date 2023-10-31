@@ -22,8 +22,10 @@ export class MenuService {
     return listAll;
   }
 
-  findOne(id: string) {
-    return this.repository.findOne(id);
+  async findOne(id: string) {
+    const findById = await this.repository.findOne(id);
+    if (!findById) throw new BadRequestException('id not found');
+    return findById;
   }
 
   async update(id: string, menu: UpdateMenuDto) {

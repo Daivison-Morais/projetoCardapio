@@ -15,12 +15,16 @@ import { UpdateProductDto } from './dto/update-product.dto';
 export class ProductsController {
   constructor(private readonly productsService: ProductsService) {}
 
-  @Post('create')
+  @Post('')
   create(@Body() createProductDto: CreateProductDto) {
     return this.productsService.create(createProductDto);
   }
+  @Post('many')
+  creates(@Body() createProductDto: CreateProductDto[]) {
+    return this.productsService.creates(createProductDto);
+  }
 
-  @Get('list')
+  @Get('')
   findAll() {
     return this.productsService.findAll();
   }

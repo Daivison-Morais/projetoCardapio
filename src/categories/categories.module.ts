@@ -3,11 +3,11 @@ import { CategoriesService } from './categories.service';
 import { CategoriesController } from './categories.controller';
 import { PrismaService } from 'src/database/prismaService';
 import { CategoriesRepository } from './categories.repository';
-import { ProductsModule } from 'src/products/products.module';
 
 @Module({
-  imports: [ProductsModule],
+  imports: [],
   controllers: [CategoriesController],
   providers: [CategoriesService, PrismaService, CategoriesRepository],
+  exports: [CategoriesRepository],
 })
 export class CategoriesModule {}

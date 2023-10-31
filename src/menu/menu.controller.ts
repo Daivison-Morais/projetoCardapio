@@ -15,12 +15,12 @@ import { UpdateMenuDto } from './dto/update-menu.dto';
 export class MenuController {
   constructor(private readonly menuService: MenuService) {}
 
-  @Post('create')
+  @Post('')
   create(@Body() createMenuDto: CreateMenuDto) {
     return this.menuService.create(createMenuDto);
   }
 
-  @Get('list')
+  @Get('')
   findAll() {
     return this.menuService.findAll();
   }

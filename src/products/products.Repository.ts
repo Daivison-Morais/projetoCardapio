@@ -12,6 +12,12 @@ export class ProductsRepository {
     });
     return products;
   }
+  async creates(product: any) {
+    const products = await this.prisma.products.createMany({
+      data: product,
+    });
+    return products;
+  }
 
   async findAll() {
     return await this.prisma.products.findMany();
@@ -25,6 +31,23 @@ export class ProductsRepository {
     return findname;
   }
 
+  async countIdsMenus(idsMenus: string[]) {
+    return await this.prisma.menus.count({
+      where: {
+        id: {
+          in: idsMenus,
+        },
+      },
+    });
+  }
+
+  async findByIdCategories(id: string) {
+    return await this.prisma.categories.findUnique({
+      where: {
+        id,
+      },
+    });
+  }
   async findOne(id: string) {
     return await this.prisma.products.findUnique({
       where: {
