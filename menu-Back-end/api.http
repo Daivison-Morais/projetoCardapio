@@ -1,0 +1,44 @@
+###MENU
+POST http://localhost:3000/menu
+
+Content-Type: application/json
+{
+  "name": "Diurnal"
+}
+
+###
+GET http://localhost:3000/menu/
+
+
+###PRODUCTS
+GET http://localhost:3000/products
+
+###
+POST http://localhost:3000/products
+
+Content-Type: application/json
+{
+      "name": "X Tudo 400g",
+      "image": "https://cdn.discordapp.com/attachments/1068625823613067355/1069019233826119802/images_26.jpg",
+      "price": 3000,
+      "description": "Contém pão brioche, duas carnes 60g, bacon, queijo, tomate e alface",
+      "promotion": true,
+      "shift": "diurnal",
+      "categoryId": "653ffccc6d2f241147ce2e7e",
+      "menusId": ["653ffb446d2f241147ce2e7c"]
+    }
+
+DELETE http://localhost:3000/products/:id
+
+###CATEGORIES
+GET http://localhost:3000/categories
+
+###
+POST http://localhost:3000/categories
+Content-Type: application/json
+{
+  "name": "doces",
+  "image": "https://media.discordapp.net/attachments/1068625823613067355/1069227305949462528/PrincDoces.jpg",
+  "menusId":["653ffb446d2f241147ce2e7c"]
+}
+
