@@ -40,6 +40,12 @@ export class ProductsService {
     return listAll;
   }
 
+  async findByCategory(id: string) {
+    const findById = await this.repository.findByCategory(id);
+    if (!findById) throw new BadRequestException('id not found');
+    return findById;
+  }
+
   async findOne(id: string) {
     const findById = await this.repository.findOne(id);
     if (!findById) throw new BadRequestException('id not found');
