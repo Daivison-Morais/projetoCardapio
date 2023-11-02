@@ -33,6 +33,12 @@ export class MenuRepository {
     });
   }
 
+  async findByShift(name: string) {
+    return await this.prisma.menus.findUnique({
+      where: { name },
+    });
+  }
+
   async update(id: string, menu: UpdateMenuDto) {
     return await this.prisma.menus.update({
       where: {

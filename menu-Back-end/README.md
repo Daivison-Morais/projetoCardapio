@@ -1,73 +1,152 @@
-<p align="center">
-  <a href="http://nestjs.com/" target="blank"><img src="https://nestjs.com/img/logo-small.svg" width="200" alt="Nest Logo" /></a>
-</p>
+# API para gerenciar cardápios de produtos
+-Este é um projeto backend que executa, CRUD de cardápios, produtos e categorias de produtos.
 
-[circleci-image]: https://img.shields.io/circleci/build/github/nestjs/nest/master?token=abc123def456
-[circleci-url]: https://circleci.com/gh/nestjs/nest
+## Features
 
-  <p align="center">A progressive <a href="http://nodejs.org" target="_blank">Node.js</a> framework for building efficient and scalable server-side applications.</p>
-    <p align="center">
-<a href="https://www.npmjs.com/~nestjscore" target="_blank"><img src="https://img.shields.io/npm/v/@nestjs/core.svg" alt="NPM Version" /></a>
-<a href="https://www.npmjs.com/~nestjscore" target="_blank"><img src="https://img.shields.io/npm/l/@nestjs/core.svg" alt="Package License" /></a>
-<a href="https://www.npmjs.com/~nestjscore" target="_blank"><img src="https://img.shields.io/npm/dm/@nestjs/common.svg" alt="NPM Downloads" /></a>
-<a href="https://circleci.com/gh/nestjs/nest" target="_blank"><img src="https://img.shields.io/circleci/build/github/nestjs/nest/master" alt="CircleCI" /></a>
-<a href="https://coveralls.io/github/nestjs/nest?branch=master" target="_blank"><img src="https://coveralls.io/repos/github/nestjs/nest/badge.svg?branch=master#9" alt="Coverage" /></a>
-<a href="https://discord.gg/G7Qnnhy" target="_blank"><img src="https://img.shields.io/badge/discord-online-brightgreen.svg" alt="Discord"/></a>
-<a href="https://opencollective.com/nest#backer" target="_blank"><img src="https://opencollective.com/nest/backers/badge.svg" alt="Backers on Open Collective" /></a>
-<a href="https://opencollective.com/nest#sponsor" target="_blank"><img src="https://opencollective.com/nest/sponsors/badge.svg" alt="Sponsors on Open Collective" /></a>
-  <a href="https://paypal.me/kamilmysliwiec" target="_blank"><img src="https://img.shields.io/badge/Donate-PayPal-ff3f59.svg"/></a>
-    <a href="https://opencollective.com/nest#sponsor"  target="_blank"><img src="https://img.shields.io/badge/Support%20us-Open%20Collective-41B883.svg" alt="Support us"></a>
-  <a href="https://twitter.com/nestframework" target="_blank"><img src="https://img.shields.io/twitter/follow/nestframework.svg?style=social&label=Follow"></a>
-</p>
-  <!--[![Backers on Open Collective](https://opencollective.com/nest/backers/badge.svg)](https://opencollective.com/nest#backer)
-  [![Sponsors on Open Collective](https://opencollective.com/nest/sponsors/badge.svg)](https://opencollective.com/nest#sponsor)-->
+- Cadastrar cardápios, categorias e produtos.
+- Atualizar dados específicos.
+- Lista todos, para cardápio, categorias e produtos.
+- Filtrar produtos por categoria.
 
-## Description
+### Cadastre um Cardápio.
 
-[Nest](https://github.com/nestjs/nest) framework TypeScript starter repository.
+```http
+POST /menu
+```
 
-## Installation
+#### Request:
+
+| Body              | Type     | Description                            |
+| :---------------- | :------- | :------------------------------------- |
+| `name`    | `String` | **Required**. Nome do cardápio |
+
+
+#### Response:
+
+```json
+{
+  "name": "Diurnal"
+}
+```
+### Cadastre uma categoria.
+
+```http
+POST /categories
+```
+
+#### Request:
+
+| Body              | Type     | Description                            |
+| :---------------- | :------- | :------------------------------------- |
+| `name`    | `String` | **Required**. nome da categoria |
+| `image`  | `String` | **Required**. URL da imagem     |
+| `menusId` | `Array` | **Required**. Array de Ids|
+
+#### Response:
+
+```json
+{
+  "name": "doces",
+  "image": "Url",
+  "menusId":["idCardapio"]
+}
+```
+
+### Cadastre um produto.
+
+```http
+POST /products
+```
+
+#### Request:
+
+| Body              | Type     | Description                            |
+| :---------------- | :------- | :------------------------------------- |
+| `name`    | `String` | **Required**. nome da categoria |
+| `image`  | `String` | **Required**. URL da imagem     |
+| `price` | `int` | **Required**. o valor deve ser armazenado como multiplo de 100|
+| `description`    | `String` | **Required**. Descrição do produto |
+| `promotion`  | `boolean` | **Required**. Esta ou não na promoção     |
+| `shift` | `String` | **Required**. turno do cardápio |
+| `categoryId`    | `String` | **Required**. id da categoria |
+| `menusId` | `Array` | **Required**. Array de Ids de cardapios|
+#### Response:
+
+```json
+{
+      "name": "X Tudo 400g",
+      "image": "https://cdn.discordapp.com/attachments/1068625823613067355/1069019233826119802/images_26.jpg",
+      "price": 3000,
+      "description": "Contém pão brioche, duas carnes 60g, bacon, queijo, tomate e alface",
+      "promotion": true,
+      "shift": "diurnal",
+      "categoryId": "653ffccc6d2f241147ce2e7e",
+      "menusId": ["653ffb446d2f241147ce2e7c"]
+    }
+```
+
+### filtre produtos por categoria.
+
+```http
+GET /products/:idCategory
+```
+#### Response:
+
+```json
+[
+  {
+    "id": "654112544f0e18ad1ac0628b",
+    "name": "Coxinha",
+    "image": "https://cdn.discordapp.com/attachments/1068625823613067355/1069016370370588813/images_16.jpg",
+    "price": 500,
+    "description": "Recheada com queijo e presunto 300g",
+    "promotion": true,
+    "shift": "diurnal",
+    "menusId": [
+      "653ffb446d2f241147ce2e7c"
+    ],
+    "categoryId": "653ffccc6d2f241147ce2e7e"
+  }
+]
+```
+
+
+
+### filtre produtos por categoria.
+
+```http
+GET /menu/shift
+```
+#### Response:
+
+```json
+[
+  {
+    "id": "654112544f0e18ad1ac0628b",
+    "name": "Coxinha",
+    "image": "https://cdn.discordapp.com/attachments/1068625823613067355/1069016370370588813/images_16.jpg",
+    "price": 500,
+    "description": "Recheada com queijo e presunto 300g",
+    "promotion": true,
+    "shift": "diurnal",
+    "menusId": [
+      "653ffb446d2f241147ce2e7c"
+    ],
+    "categoryId": "653ffccc6d2f241147ce2e7e"
+  }
+]
+```
+
+## Para rodar
+
+Adicione um arquivo .env conforme arquivo .env.example
 
 ```bash
 $ npm install
 ```
-
-## Running the app
-
 ```bash
-# development
+$ npx prisma generate
+```
+```bash
 $ npm run start
-
-# watch mode
-$ npm run start:dev
-
-# production mode
-$ npm run start:prod
 ```
-
-## Test
-
-```bash
-# unit tests
-$ npm run test
-
-# e2e tests
-$ npm run test:e2e
-
-# test coverage
-$ npm run test:cov
-```
-
-## Support
-
-Nest is an MIT-licensed open source project. It can grow thanks to the sponsors and support by the amazing backers. If you'd like to join them, please [read more here](https://docs.nestjs.com/support).
-
-## Stay in touch
-
-- Author - [Kamil Myśliwiec](https://kamilmysliwiec.com)
-- Website - [https://nestjs.com](https://nestjs.com/)
-- Twitter - [@nestframework](https://twitter.com/nestframework)
-
-## License
-
-Nest is [MIT licensed](LICENSE).

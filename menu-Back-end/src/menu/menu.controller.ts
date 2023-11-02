@@ -25,9 +25,9 @@ export class MenuController {
     return this.menuService.findAll();
   }
 
-  @Get(':id')
-  findOne(@Param('id') id: string) {
-    return this.menuService.findOne(id);
+  @Get('/shift')
+  findByShift() {
+    return this.menuService.findByShift();
   }
 
   @Patch(':id')

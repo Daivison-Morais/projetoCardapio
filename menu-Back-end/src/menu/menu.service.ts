@@ -1,4 +1,8 @@
-import { BadRequestException, Injectable } from '@nestjs/common';
+import {
+  BadRequestException,
+  Injectable,
+  NotFoundException,
+} from '@nestjs/common';
 import { CreateMenuDto } from './dto/create-menu.dto';
 import { UpdateMenuDto } from './dto/update-menu.dto';
 import { MenuRepository } from './menu.repository';
@@ -7,10 +11,19 @@ import { MenuRepository } from './menu.repository';
 export class MenuService {
   constructor(private repository: MenuRepository) {}
   async create(menu: CreateMenuDto) {
-    const findName = await this.repository.findName(menu.name);
+    if (!menu.name) {
+      throw new BadRequestException('name is missing');
+    }
+
+    const nameMenu = menu.name.charAt(0).toUpperCase() + menu.name.slice(1);
+    if (nameMenu != 'Diurnal' && nameMenu != 'Nocturnal') {
+      throw new BadRequestException('name must be Diurnal ou Nocturnal');
+    }
+
+    const findName = await this.repository.findName(nameMenu);
     if (findName) throw new BadRequestException('name already in use');
 
-    const idMenu = await this.repository.create(menu);
+    const idMenu = await this.repository.create({ name: nameMenu });
     return idMenu;
   }
 
@@ -26,6 +39,26 @@ export class MenuService {
     const findById = await this.repository.findOne(id);
     if (!findById) throw new BadRequestException('id not found');
     return findById;
+  }
+  async findByShift() {
+    function checkDayOrNight(data: Date) {
+      const hora = data.getHours();
+
+      const limitDay = 18;
+      const limitNight = 6;
+
+      if (hora >= limitDay || hora < limitNight) {
+        return 'Nocturnal';
+      } else {
+        return 'Diurnal';
+      }
+    }
+
+    const nameMenu = checkDayOrNight(new Date());
+
+    const findByNameMenu = await this.repository.findByShift(nameMenu);
+    if (!findByNameMenu) throw new NotFoundException('not found');
+    return findByNameMenu;
   }
 
   async update(id: string, menu: UpdateMenuDto) {
