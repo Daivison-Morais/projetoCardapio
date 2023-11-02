@@ -13,8 +13,6 @@ const GetCardCategory: NextPage<Categories> = ({
   image,
   menusId,
 }) => {
-
-  
   return (
     <>
       <div className="relative cursor-pointer">
@@ -34,29 +32,3 @@ const GetCardCategory: NextPage<Categories> = ({
 };
 
 export default GetCardCategory;
-
-/* export const getServerSideProps: GetServerSideProps = async (context) =>{
-  type Categories = {
-    id: string,
-    name: string,
-    image: string,
-    menusId: string[]
-  }
-  const data: null | Categories = null;
-    await axios.get(`${BASE_URL}/categories`)
-          .then((response) => {
-           console.log(response.data);      
-          })
-          .catch((error) => {
-            console.log(error);
-            alert("malformed request");
-          });
-  
-    
-  return {
-    props: {
-      name: data
-    }
-  }
-
-} */

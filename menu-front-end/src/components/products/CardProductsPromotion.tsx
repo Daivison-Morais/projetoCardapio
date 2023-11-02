@@ -9,7 +9,7 @@ type Product = {
   categoryId: string;
   menusId: string;
 };
-const CardProduct: NextPage<Product> = ({
+const CardProductPromotion: NextPage<Product> = ({
   id,
   name,
   image,
@@ -35,4 +35,4 @@ const CardProduct: NextPage<Product> = ({
   );
 };
 
-export default CardProduct;
+export default CardProductPromotion;
