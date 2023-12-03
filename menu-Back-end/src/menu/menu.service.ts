@@ -40,21 +40,20 @@ export class MenuService {
     if (!findById) throw new BadRequestException('id not found');
     return findById;
   }
-  async findByShift() {
-    function checkDayOrNight(data: Date) {
-      const hora = data.getHours();
 
+  async findByShift(hours: string) {
+    function checkDayOrNight(hours: string) {
       const limitDay = 18;
       const limitNight = 6;
 
-      if (hora >= limitDay || hora < limitNight) {
+      if (Number(hours) >= limitDay || Number(hours) < limitNight) {
         return 'Nocturnal';
       } else {
         return 'Diurnal';
       }
     }
 
-    const nameMenu = checkDayOrNight(new Date());
+    const nameMenu = checkDayOrNight(hours);
 
     const findByNameMenu = await this.repository.findByShift(nameMenu);
     if (!findByNameMenu) throw new NotFoundException('not found');

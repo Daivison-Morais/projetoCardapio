@@ -25,9 +25,9 @@ export class MenuController {
     return this.menuService.findAll();
   }
 
-  @Get('/shift')
-  findByShift() {
-    return this.menuService.findByShift();
+  @Get('/shift/:hours')
+  findByShift(@Param('hours') hours: string) {
+    return this.menuService.findByShift(hours);
   }
 
   @Patch(':id')
