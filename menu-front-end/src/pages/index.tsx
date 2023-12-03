@@ -16,7 +16,8 @@ type Categories = {
 const Menu: NextPage<Categories> = (props) => {
   const [dataCategories, setDataCategories] = useState([]);
   const [dataProducts, setDataProducts] = useState([]);
-  const [idMenu, setIdMenu] = useState("");
+  const [idMenu, setIdMenu] = useState({});
+  const [nameMenu, setNameMenu] = useState("");
   const router = useRouter();
 
   async function getCategories() {
@@ -43,10 +44,12 @@ const Menu: NextPage<Categories> = (props) => {
       });
   }
   async function getMenuIdAccordingTimetable() {
+    const hours = new Date().getHours();
     await axios
-      .get(`${BASE_URL}/menu/shift`)
+      .get(`${BASE_URL}/menu/shift/${hours}`)
       .then((response) => {
         setIdMenu(response.data.id);
+        setNameMenu(response.data.name);
       })
       .catch((error) => {
         console.log(error);
@@ -59,19 +62,6 @@ const Menu: NextPage<Categories> = (props) => {
     getCategories();
     getProducts();
   }, []);
-
-  function checkDayOrNight(data: Date) {
-    const hora = data.getHours();
-
-    const limitDay = 18;
-    const limitNight = 6;
-
-    if (hora >= limitDay || hora < limitNight) {
-      return "Nocturnal";
-    } else {
-      return "Diurnal";
-    }
-  }
 
   const productByCategory = (infoIdCategory: string, name: string) => {
     router.push({
@@ -115,7 +105,7 @@ const Menu: NextPage<Categories> = (props) => {
             <h1 className="font-semibold text-4xl mt-5">Categorias</h1>
             <nav className="grid grid-cols-1 md:grid-cols-2 mt-5 gap-4">
               {dataCategories?.map(({ name, id, image, menusId }) => {
-                if(menusId[0] == idMenu){
+                if(menusId [0] == idMenu){
                   return (
                     <button
                     onClick={() => {
@@ -149,7 +139,7 @@ const Menu: NextPage<Categories> = (props) => {
                   price,
                   description,
                 }) => {
-                  if (promotion && shift === checkDayOrNight(new Date())) {
+                  if (promotion && shift === nameMenu) {
                     return (
                       <button
                         key={id}
